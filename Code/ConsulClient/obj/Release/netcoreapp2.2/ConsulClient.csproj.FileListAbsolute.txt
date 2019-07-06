@@ -1,9 +1,0 @@
-C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\bin\Release\netcoreapp2.2\ConsulClient.deps.json
-C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\bin\Release\netcoreapp2.2\ConsulClient.dll
-C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\bin\Release\netcoreapp2.2\ConsulClient.pdb
-C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Release\netcoreapp2.2\ConsulClient.csprojAssemblyReference.cache
-C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Release\netcoreapp2.2\ConsulClient.csproj.CoreCompileInputs.cache
-C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Release\netcoreapp2.2\ConsulClient.AssemblyInfoInputs.cache
-C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Release\netcoreapp2.2\ConsulClient.AssemblyInfo.cs
-C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Release\netcoreapp2.2\ConsulClient.dll
-C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Release\netcoreapp2.2\ConsulClient.pdb
