@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html data-markdown-preview-plus-context="html-export">
+  <head>
+    <meta charset="utf-8" />
+    <title>Consul+Ocelot.md</title>
+    <style>.emoji {
+  max-width: 1em !important;
+}
+del {
+  text-decoration: none;
+  position: relative;
+}
+del::after {
+  border-bottom: 1px solid black;
+  content: '';
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+}
+ul.contains-task-list li.task-list-item {
+  position: relative;
+  list-style-type: none;
+}
+ul.contains-task-list li.task-list-item input.task-list-item-checkbox {
+  position: absolute;
+  transform: translateX(-100%);
+  width: 30px;
+}
+span.critic.comment {
+  position: relative;
+}
+span.critic.comment::before {
+  content: '\1f4ac';
+  position: initial;
+}
+span.critic.comment > span {
+  display: none;
+}
+span.critic.comment:hover > span {
+  display: initial;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid;
+  border-radius: 5px;
+  max-height: 4em;
+  overflow: auto;
+}
+span.critic.comment:focus > span {
+  display: initial;
+  text-decoration: underline;
+  position: initial;
+  top: auto;
+  left: auto;
+  border: initial;
+  border-radius: initial;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: transparent;
+}
+
+body {
+  padding: 2em;
+  font-size: 1.2em;
+  color: #abb2bf;
+  background-color: #282c34;
+  overflow: auto;
+}
+body > :first-child,
+body > div.update-preview > :first-child {
+  margin-top: 0;
+}
+body > p,
+body > div.update-preview > p {
+  margin-top: 0;
+  margin-bottom: 1.5em;
+}
+body > ul,
+body > div.update-preview > ul,
+body > ol,
+body > div.update-preview > ol {
+  margin-bottom: 1.5em;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: #ffffff;
+}
+h1 {
+  font-size: 2.4em;
+  font-weight: 300;
+}
+h2 {
+  font-size: 1.8em;
+  font-weight: 400;
+}
+h3 {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+h4 {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+h5 {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+h6 {
+  font-size: 1em;
+  font-weight: 600;
+}
+strong {
+  color: #ffffff;
+}
+del {
+  color: #7c879c;
+}
+a,
+a code {
+  color: #528bff;
+}
+img {
+  max-width: 100%;
+}
+blockquote {
+  margin: 1.5em 0;
+  font-size: inherit;
+  color: #7c879c;
+  border-color: #4b5362;
+  border-width: 4px;
+}
+hr {
+  margin: 3em 0;
+  border-top: 2px dashed #4b5362;
+  background: none;
+}
+table {
+  margin: 1.5em 0;
+}
+th {
+  color: #ffffff;
+}
+th,
+td {
+  padding: 0.66em 1em;
+  border: 1px solid #4b5362;
+}
+code {
+  color: #ffffff;
+  background-color: #3a3f4b;
+}
+pre.editor-colors {
+  margin: 1.5em 0;
+  padding: 1em;
+  font-size: 0.92em;
+  border-radius: 3px;
+  background-color: #31363f;
+}
+kbd {
+  color: #ffffff;
+  border: 1px solid #4b5362;
+  border-bottom: 2px solid #3e4451;
+  background-color: #3a3f4b;
+}
+
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+.line-number.bracket-matcher.bracket-matcher {
+  color: #abb2bf;
+  background-color: #3a3f4b;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+.spell-check-corrections {
+  width: 25em !important;
+}
+
+pre.editor-colors {
+  background-color: #282c34;
+  color: #abb2bf;
+}
+pre.editor-colors .line.cursor-line {
+  background-color: rgba(153, 187, 255, 0.04);
+}
+pre.editor-colors .invisible {
+  color: #abb2bf;
+}
+pre.editor-colors .cursor {
+  border-left: 2px solid #528bff;
+}
+pre.editor-colors .selection .region {
+  background-color: #3e4451;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-bottom: 1px solid #528bff;
+  box-sizing: border-box;
+}
+pre.editor-colors .invisible-character {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .indent-guide {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .wrap-guide {
+  background-color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .find-result .region.region.region,
+pre.editor-colors .current-result .region.region.region {
+  border-radius: 2px;
+  background-color: rgba(82, 139, 255, 0.24);
+  transition: border-color 0.4s;
+}
+pre.editor-colors .find-result .region.region.region {
+  border: 2px solid transparent;
+}
+pre.editor-colors .current-result .region.region.region {
+  border: 2px solid #528bff;
+  transition-duration: .1s;
+}
+pre.editor-colors .gutter .line-number {
+  color: #636d83;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  color: #abb2bf;
+  background-color: #3a3f4b;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  background-color: transparent;
+}
+pre.editor-colors .gutter .line-number .icon-right {
+  color: #abb2bf;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before {
+  bottom: -3px;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 25px;
+  border-bottom: 1px dotted rgba(224, 82, 82, 0.5);
+  pointer-events: none;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #abb2bf;
+}
+.syntax--comment {
+  color: #5c6370;
+  font-style: italic;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #5c6370;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #98c379;
+}
+.syntax--keyword {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--control {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #61afef;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #d19a66;
+}
+.syntax--storage {
+  color: #c678dd;
+}
+.syntax--storage.syntax--type.syntax--annotation,
+.syntax--storage.syntax--type.syntax--primitive {
+  color: #c678dd;
+}
+.syntax--storage.syntax--modifier.syntax--package,
+.syntax--storage.syntax--modifier.syntax--import {
+  color: #abb2bf;
+}
+.syntax--constant {
+  color: #d19a66;
+}
+.syntax--constant.syntax--variable {
+  color: #d19a66;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--numeric {
+  color: #d19a66;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #56b6c2;
+}
+.syntax--variable {
+  color: #e06c75;
+}
+.syntax--variable.syntax--interpolation {
+  color: #be5046;
+}
+.syntax--variable.syntax--parameter {
+  color: #abb2bf;
+}
+.syntax--string {
+  color: #98c379;
+}
+.syntax--string > .syntax--source,
+.syntax--string .syntax--embedded {
+  color: #abb2bf;
+}
+.syntax--string.syntax--regexp {
+  color: #56b6c2;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #e5c07b;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #e06c75;
+}
+.syntax--punctuation.syntax--definition.syntax--comment {
+  color: #5c6370;
+}
+.syntax--punctuation.syntax--definition.syntax--method-parameters,
+.syntax--punctuation.syntax--definition.syntax--function-parameters,
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--separator,
+.syntax--punctuation.syntax--definition.syntax--seperator,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #abb2bf;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #61afef;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #e5c07b;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #be5046;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #abb2bf;
+}
+.syntax--support.syntax--class {
+  color: #e5c07b;
+}
+.syntax--support.syntax--type {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #e06c75;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #d19a66;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #61afef;
+}
+.syntax--meta.syntax--class {
+  color: #e5c07b;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--definition.syntax--variable {
+  color: #e06c75;
+}
+.syntax--meta.syntax--link {
+  color: #d19a66;
+}
+.syntax--meta.syntax--require {
+  color: #61afef;
+}
+.syntax--meta.syntax--selector {
+  color: #c678dd;
+}
+.syntax--meta.syntax--separator {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--tag {
+  color: #abb2bf;
+}
+.syntax--underline {
+  text-decoration: underline;
+}
+.syntax--none {
+  color: #abb2bf;
+}
+.syntax--invalid.syntax--deprecated {
+  color: #523d14 !important;
+  background-color: #e0c285 !important;
+}
+.syntax--invalid.syntax--illegal {
+  color: white !important;
+  background-color: #e05252 !important;
+}
+.syntax--markup.syntax--bold {
+  color: #d19a66;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #c678dd;
+}
+.syntax--markup.syntax--deleted {
+  color: #e06c75;
+}
+.syntax--markup.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #e06c75;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #61afef;
+}
+.syntax--markup.syntax--link {
+  color: #56b6c2;
+}
+.syntax--markup.syntax--inserted {
+  color: #98c379;
+}
+.syntax--markup.syntax--quote {
+  color: #d19a66;
+}
+.syntax--markup.syntax--raw {
+  color: #98c379;
+}
+.syntax--source.syntax--c .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cpp .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--css .syntax--property-name,
+.syntax--source.syntax--css .syntax--property-value {
+  color: #828997;
+}
+.syntax--source.syntax--css .syntax--property-name.syntax--support,
+.syntax--source.syntax--css .syntax--property-value.syntax--support {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--source.syntax--embedded.syntax--source {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--constant.syntax--language,
+.syntax--source.syntax--elixir .syntax--constant.syntax--numeric,
+.syntax--source.syntax--elixir .syntax--constant.syntax--definition {
+  color: #61afef;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--definition,
+.syntax--source.syntax--elixir .syntax--variable.syntax--anonymous {
+  color: #c678dd;
+}
+.syntax--source.syntax--elixir .syntax--parameter.syntax--variable.syntax--function {
+  color: #d19a66;
+  font-style: italic;
+}
+.syntax--source.syntax--elixir .syntax--quoted {
+  color: #98c379;
+}
+.syntax--source.syntax--elixir .syntax--keyword.syntax--special-method,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--section,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--source.syntax--empty {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--readwrite.syntax--module .syntax--punctuation {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--regexp.syntax--section,
+.syntax--source.syntax--elixir .syntax--regexp.syntax--string {
+  color: #be5046;
+}
+.syntax--source.syntax--elixir .syntax--separator,
+.syntax--source.syntax--elixir .syntax--keyword.syntax--operator {
+  color: #d19a66;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--constant {
+  color: #e5c07b;
+}
+.syntax--source.syntax--elixir .syntax--array,
+.syntax--source.syntax--elixir .syntax--scope,
+.syntax--source.syntax--elixir .syntax--section {
+  color: #828997;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #61afef;
+}
+.syntax--source.syntax--go .syntax--storage.syntax--type.syntax--string {
+  color: #c678dd;
+}
+.syntax--source.syntax--ini .syntax--keyword.syntax--other.syntax--definition.syntax--ini {
+  color: #e06c75;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--modifier.syntax--import {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--type {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--keyword.syntax--operator.syntax--instanceof {
+  color: #c678dd;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair {
+  color: #e06c75;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair > .syntax--punctuation {
+  color: #abb2bf;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator {
+  color: #56b6c2;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--delete,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--in,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--of,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--instanceof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--new,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--typeof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--void {
+  color: #c678dd;
+}
+.syntax--source.syntax--ts .syntax--keyword.syntax--operator {
+  color: #56b6c2;
+}
+.syntax--source.syntax--flow .syntax--keyword.syntax--operator {
+  color: #56b6c2;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #98c379;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #56b6c2;
+}
+.syntax--ng.syntax--interpolation {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation.syntax--begin,
+.syntax--ng.syntax--interpolation.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--function {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation .syntax--function.syntax--begin,
+.syntax--ng.syntax--interpolation .syntax--function.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--bool {
+  color: #d19a66;
+}
+.syntax--ng.syntax--interpolation .syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--pipe,
+.syntax--ng.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--tag {
+  color: #56b6c2;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--attribute-name {
+  color: #e5c07b;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string {
+  color: #c678dd;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--begin,
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--end {
+  color: #abb2bf;
+}
+.syntax--source.syntax--ruby .syntax--constant.syntax--other.syntax--symbol > .syntax--punctuation {
+  color: inherit;
+}
+.syntax--source.syntax--php .syntax--class.syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--source.syntax--python .syntax--keyword.syntax--operator.syntax--logical.syntax--python {
+  color: #c678dd;
+}
+.syntax--source.syntax--python .syntax--variable.syntax--parameter {
+  color: #d19a66;
+}
+
+/*
+ * Your Stylesheet
+ *
+ * This stylesheet is loaded when Atom starts up and is reloaded automatically
+ * when it is changed and saved.
+ *
+ * Add your own CSS or Less to fully customize Atom.
+ * If you are unfamiliar with Less, you can read more about it here:
+ * http://lesscss.org
+ */
+/*
+ * Examples
+ * (To see them, uncomment and save)
+ */
+</style>
+
+  </head>
+  <body>
+    <h1><center>服务网关与服务注册发现实现教程</center></h1>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">此文档主要提供给开发人员使用，</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">暂时仅实现服务注册、服务发现、负载均衡等功能，</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">更多功能需配合官方文档或第三方文档进行更细致化开发。</span></span></span></pre>
+<h4>有兴趣可以了解一下</h4>
+<ul>
+<li>
+<h4>Consul相关：</h4>
+<ul>
+<li><a href="https://www.consul.io/">Consul官网</a></li>
+<li><a href="https://blog.51cto.com/firephoenix/2131616">Consul简介</a></li>
+<li><a href="https://blog.csdn.net/liuzhuchen/article/details/81913562">Consul使用手册</a></li>
+<li><a href="https://www.cnblogs.com/sunsky303/p/9209024.html">Consul配置手册</a></li>
+</ul>
+</li>
+<li>
+<h4>Ocelot相关：</h4>
+<ul>
+<li><a href="https://ocelot.readthedocs.io/en/latest/">Ocelot官网</a></li>
+<li><a href="https://blog.csdn.net/qin_yu_2010/article/details/82323003">Ocelot简介</a></li>
+</ul>
+</li>
+</ul>
+<h2>1.  Windows环境的搭建</h2>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">在Windows环境下搭建consul进行服务注册、服务网关等</span></span></span>
+<span class=""><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">此次环境配置：</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">            </span><span class="syntax--meta syntax--paragraph syntax--text">Server</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">                </span><span class="syntax--meta syntax--paragraph syntax--text">ip：192.168.199.203</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text"><span class="leading-whitespace">                </span>Windows版本：WS 2012 R2 Standard</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text"><span class="leading-whitespace">                </span>处理器：i5-4570</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text"><span class="leading-whitespace">                </span>内存：8G</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text"><span class="leading-whitespace">                </span>系统类型：X64</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">            </span><span class="syntax--meta syntax--paragraph syntax--text">Client</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="leading-whitespace">                </span><span class="syntax--meta syntax--paragraph syntax--text">ip：192.168.199.40</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text"><span class="leading-whitespace">                </span>Windows版本：W10企业版</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text"><span class="leading-whitespace">                </span>处理器：i7-3720QM</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text"><span class="leading-whitespace">                </span>内存：8G</span></span></span>
+<span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text"><span class="leading-whitespace">                </span>系统类型：X64</span></span></span></pre>
+<h3>1.1 服务器环境搭建</h3>
+<ul>
+<li>
+<h4>1.1.1   Consul_Server端</h4>
+</li>
+<li>
+<h5>step1</h5>
+<p>前往Consul官网<a href="https://www.consul.io/downloads.html">下载</a> windows版本的Consul安装程序</p>
+</li>
+<li>
+<h5>step2</h5>
+<p>将下好的软件复制到一个新建好的文件夹A，在文件夹A内部新建server.json文件,写入内容</p>
+</li>
+</ul>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">    </span><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"datacenter"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"dc1"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"data_dir"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"opt/consul/data"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"node_name"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"consul-server01"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//你的Consul服务的别名</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"server"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"bootstrap_expect"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">1</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"bind_addr"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"192.168.199.203"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//你服务器的ip或者外网域名</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"client_addr"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"0.0.0.1"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//此处固定写法，方便其他机器查看你的ConsulUI</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"ui"</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span></pre>
+<ul>
+<li>
+<h5>step3</h5>
+<p>在文件夹A内部新建runconsul.bat文件,写入内容
+(’’’)
+consul agent -config-dir server.json
+pause
+(’’’)</p>
+</li>
+<li>
+<h5>step4</h5>
+<p>运行runconsul.bat文件，出现下列内容即为开启成功
+<img src="WindowsServerStep4.jpg" alt="">
+在服务器上打开浏览器输入127.0.0.1:8500，可以查看Consul运行情况，</p>
+</li>
+<li>
+<h4>1.1.2   Consul_Client端</h4>
+</li>
+<li>
+<h5>step1</h5>
+<p>前往Consul官网<a href="https://www.consul.io/downloads.html">下载</a> windows版本的Consul安装程序</p>
+</li>
+<li>
+<h5>step2</h5>
+<p>将下好的软件复制到一个新建好的文件夹A，在文件夹A内部新建server.json文件,写入内容</p>
+</li>
+</ul>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">    </span><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"datacenter"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"dc1"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"data_dir"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"opt/consul/data"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"node_name"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"ych-Client"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//你的Client的别名（仅支持全字母、数字、破折号）</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"server"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--false">false</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//是否是Server</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"bind_addr"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"192.168.199.40"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//当前服务器IP或者域名</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"client_addr"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"192.168.199.40"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//可以写当前服务器的ip，也可以写0.0.0.0，主要区别是是否可以在本机查看UI</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"ui"</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//是否开启UI</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"retry_join"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--string syntax--quoted">"192.168.199.203"</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//重新加入的Server服务器的IP，可为多个，直到成功</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"retry_interval"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"30s"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//失败重连间隔</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"rejoin_after_leave"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"start_join"</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--string syntax--quoted">"192.168.199.203"</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--comment syntax--line">//第一次加入的Server服务器的IP，可为多个，直到成功</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span></pre>
+<ul>
+<li>
+<h5>step3</h5>
+<p>在文件夹A内部新建runconsul.bat文件,写入内容</p>
+<pre class="editor-colors lang-javascript"><span><span class="syntax--source syntax--js">consul agent <span class="syntax--keyword syntax--operator syntax--js">-</span>config<span class="syntax--keyword syntax--operator syntax--js">-</span>dir server<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">json</span></span></span>
+<span class=""><span class="syntax--source syntax--js">pause</span></span></pre>
+</li>
+<li>
+<h5>step4</h5>
+<p>运行runconsul.bat文件，出现下列内容即为开启成功
+<img src="WindowsClientStep4.jpg" alt="">
+在server服务器上打开浏览器输入127.0.0.1:8500，可以查看Node加入新节点。</p>
+</li>
+</ul>
+<h3>1.2 API注册</h3>
+<ul>
+<li>
+<h5>step1</h5>
+引入下列两个Nuget包</li>
+</ul>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">    </span><span class="syntax--source syntax--js"><span class="syntax--keyword syntax--operator syntax--js">&lt;</span><span class="syntax--meta syntax--class syntax--component syntax--jsx">PackageReference</span> <span class="syntax--entity syntax--other syntax--attribute-name">Include</span><span class="syntax--keyword syntax--operator syntax--js">=</span><span class="syntax--string syntax--quoted">"Microsoft.AspNetCore.Http.Features"</span> <span class="syntax--entity syntax--other syntax--attribute-name">Version</span><span class="syntax--keyword syntax--operator syntax--js">=</span><span class="syntax--string syntax--quoted">"2.2.0"</span> <span class="syntax--keyword syntax--operator syntax--js">/</span><span class="syntax--keyword syntax--operator syntax--js">&gt;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--keyword syntax--operator syntax--js">&lt;</span><span class="syntax--meta syntax--class">PackageReference</span> <span class="syntax--meta syntax--class">Include</span><span class="syntax--keyword syntax--operator syntax--js">=</span><span class="syntax--string syntax--quoted">"Microsoft.AspNetCore.Razor.Design"</span> <span class="syntax--meta syntax--class">Version</span><span class="syntax--keyword syntax--operator syntax--js">=</span><span class="syntax--string syntax--quoted">"2.2.0"</span> <span class="syntax--meta syntax--class">PrivateAssets</span><span class="syntax--keyword syntax--operator syntax--js">=</span><span class="syntax--string syntax--quoted">"All"</span> <span class="syntax--keyword syntax--operator syntax--js">/</span><span class="syntax--keyword syntax--operator syntax--js">&gt;</span></span></span></pre>
+<ul>
+<li>
+<h5>step2</h5>
+<p>添加公司Nuget上的ConsulRegister引用</p>
+<p>在Program添加下列代码：</p>
+</li>
+</ul>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">        </span><span class="syntax--source syntax--js">public static <span class="syntax--meta syntax--class">IWebHostBuilder</span> <span class="syntax--meta syntax--class">CreateWebHostBuilder</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>string<span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span> args<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span> <span class="syntax--storage syntax--type syntax--function syntax--arrow">=&gt;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--meta syntax--class">WebHost</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">CreateDefaultBuilder</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>args<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                        </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseKestrel</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                        </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseContentRoot</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--meta syntax--class">Directory</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">GetCurrentDirectory</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                        </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseIIS</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">UseStartup</span><span class="syntax--keyword syntax--operator syntax--js">&lt;</span><span class="syntax--meta syntax--class">Startup</span><span class="syntax--keyword syntax--operator syntax--js">&gt;</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span></pre>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="leading-whitespace">  </span><span class="syntax--meta syntax--paragraph syntax--text">在Startup添加下列代码：</span></span></span></pre>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">        </span><span class="syntax--source syntax--js">public void <span class="syntax--entity syntax--name syntax--function">ConfigureServices</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--meta syntax--class">IServiceCollection</span> services<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>services<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddConsul</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--meta syntax--class">Configuration</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span><span class="syntax--comment syntax--line">//注册Consul中间件</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>services<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddMvc</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">SetCompatibilityVersion</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--meta syntax--class">CompatibilityVersion</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">Version_2_2</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span>public void <span class="syntax--entity syntax--name syntax--function">Configure</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--meta syntax--class">IApplicationBuilder</span> app<span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--meta syntax--class">IHostingEnvironment</span> env<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--keyword syntax--control">if</span> <span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>env<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">IsDevelopment</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseDeveloperExceptionPage</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--keyword syntax--control">else</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseHsts</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseCors</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseHttpsRedirection</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseConsul</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span><span class="syntax--comment syntax--line">//使用Consul中间件</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseMvc</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span></pre>
+<ul>
+<li>
+<h5>step3</h5>
+在appsettings.json内添加下列内容</li>
+</ul>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">  </span><span class="syntax--source syntax--js"><span class="syntax--string syntax--quoted">"Host"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"http://192.168.199.40:8041"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//当前API程序的ip或者域名</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--string syntax--quoted">"ServiceDiscovery"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--string syntax--quoted">"ServiceName"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"API_1"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//注册的API名称，用以进行服务查找，以及负载均衡</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--string syntax--quoted">"Consul"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"HttpEndpoint"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"http://192.168.199.40:8500"</span><span class="syntax--comment syntax--line">//API需要注册的Client地址（端口为固定8500，或者可映射为8500的端口）</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span></pre>
+<ul>
+<li>
+<h5>step4</h5>
+运行程序然后打开server的ConsulUI即可查看注册了该API</li>
+</ul>
+<h3>1.3 Ocelot进行服务网关搭建和服务发现</h3>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">这个程序建议部署在Consul-Server服务器上</span></span></span></pre>
+<ul>
+<li>
+<h5>step1</h5>
+<p>新建一个webAPI core项目</p>
+<p>引入下列两个Nuget包</p>
+</li>
+</ul>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">    </span><span class="syntax--source syntax--js"><span class="syntax--keyword syntax--operator syntax--js">&lt;</span><span class="syntax--meta syntax--class syntax--component syntax--jsx">PackageReference</span> <span class="syntax--entity syntax--other syntax--attribute-name">Include</span><span class="syntax--keyword syntax--operator syntax--js">=</span><span class="syntax--string syntax--quoted">"Ocelot"</span> <span class="syntax--entity syntax--other syntax--attribute-name">Version</span><span class="syntax--keyword syntax--operator syntax--js">=</span><span class="syntax--string syntax--quoted">"13.5.2"</span> <span class="syntax--keyword syntax--operator syntax--js">/</span><span class="syntax--keyword syntax--operator syntax--js">&gt;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--keyword syntax--operator syntax--js">&lt;</span><span class="syntax--meta syntax--class">PackageReference</span> <span class="syntax--meta syntax--class">Include</span><span class="syntax--keyword syntax--operator syntax--js">=</span><span class="syntax--string syntax--quoted">"Ocelot.Provider.Consul"</span> <span class="syntax--meta syntax--class">Version</span><span class="syntax--keyword syntax--operator syntax--js">=</span><span class="syntax--string syntax--quoted">"13.5.2"</span> <span class="syntax--keyword syntax--operator syntax--js">/</span><span class="syntax--keyword syntax--operator syntax--js">&gt;</span></span></span></pre>
+<ul>
+<li>
+<h5>step2（重要）</h5>
+此处为配置项，暂时需要手动输入；
+在根目录下新建ocelot.json文件，写入内容</li>
+</ul>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">  </span><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--string syntax--quoted">"ReRoutes"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"UseServiceDiscovery"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//开启服务发现</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"DownstreamPathTemplate"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"/{url}"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//下游路由规则</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"DownstreamScheme"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"http"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//请求协议</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"ServiceName"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"API_1"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//对应的服务名称</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"LoadBalancerOptions"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--string syntax--quoted">"Type"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"RoundRobin"</span><span class="syntax--comment syntax--line">//负载均衡规则：轮询</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"UpstreamPathTemplate"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"/Client1/{url}"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//上游路由规则不可重复，否则上游无法寻址到正确的下游路由</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"UpstreamHttpMethod"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span> <span class="syntax--string syntax--quoted">"Get"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">"Post"</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//允许的请求方法</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"ReRoutesCaseSensitive"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--false">false</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"UseServiceDiscovery"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"DownstreamPathTemplate"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"/{url}"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"DownstreamScheme"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"http"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"ServiceName"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"API_2"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"LoadBalancerOptions"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--string syntax--quoted">"Type"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"RoundRobin"</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"UpstreamPathTemplate"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"/Client2/{url}"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"UpstreamHttpMethod"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span> <span class="syntax--string syntax--quoted">"Get"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">"Post"</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"ReRoutesCaseSensitive"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--false">false</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--string syntax--quoted">"GlobalConfiguration"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--comment syntax--line">// 使用Consul服务治理</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--string syntax--quoted">"ServiceDiscoveryProvider"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"Host"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"192.168.199.203"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//想要发现的Server服务IP</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"Port"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">8500</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--comment syntax--line">//固定端口或者可映射到该端口的映射端口</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"PollingInterval"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">100</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--comment syntax--line">//健康检查时间间隔ms</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"Type"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">"Consul"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"Token"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--null">null</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--string syntax--quoted">"ConfigurationKey"</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--null">null</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span></pre>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">在Program添加下列代码：</span></span></span></pre>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">        </span><span class="syntax--source syntax--js">public static <span class="syntax--meta syntax--class">IWebHostBuilder</span> <span class="syntax--meta syntax--class">CreateWebHostBuilder</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>string<span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span> args<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span> <span class="syntax--storage syntax--type syntax--function syntax--arrow">=&gt;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--meta syntax--class">WebHost</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">CreateDefaultBuilder</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>args<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">ConfigureAppConfiguration</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--formal-parameter syntax--identifier">hostingContext</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--formal-parameter syntax--identifier">config</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span> <span class="syntax--storage syntax--type syntax--function syntax--arrow">=&gt;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span>config</span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">SetBasePath</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>hostingContext<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">HostingEnvironment</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">ContentRootPath</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddJsonFile</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">"appsettings.json"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddJsonFile</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>$<span class="syntax--string syntax--quoted">"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddJsonFile</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">"ocelot.json"</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddEnvironmentVariables</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">UseStartup</span><span class="syntax--keyword syntax--operator syntax--js">&lt;</span><span class="syntax--meta syntax--class">Startup</span><span class="syntax--keyword syntax--operator syntax--js">&gt;</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span></pre>
+<pre class="editor-colors lang-text"><span><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">在Startup添加下列代码：</span></span></span></pre>
+<pre class="editor-colors lang-javascript"><span><span class="leading-whitespace">        </span><span class="syntax--source syntax--js">public void <span class="syntax--entity syntax--name syntax--function">ConfigureServices</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--meta syntax--class">IServiceCollection</span> services<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--comment syntax--line">//添加Ocelot中间件</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>services<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddOcelot</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                 </span><span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">ConfigurationBuilder</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                 </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddJsonFile</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">"ocelot.json"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> optional<span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--false">false</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> reloadOnChange<span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">Build</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                 </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddConsul</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                 </span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">AddConfigStoredInConsul</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""></span> 
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span>public void <span class="syntax--entity syntax--name syntax--function">Configure</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--meta syntax--class">IApplicationBuilder</span> app<span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--meta syntax--class">IHostingEnvironment</span> env<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--keyword syntax--control">if</span> <span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>env<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">IsDevelopment</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseDeveloperExceptionPage</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--keyword syntax--control">else</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseHsts</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--comment syntax--line">//添加程序健康启动检查</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">Map</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">"/HealthCheck"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> s <span class="syntax--storage syntax--type syntax--function syntax--arrow">=&gt;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span>s<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">Run</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--keyword syntax--control">async</span> context <span class="syntax--storage syntax--type syntax--function syntax--arrow">=&gt;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--keyword syntax--control">await</span> context<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">Response</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">WriteAsync</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">"ok"</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>app<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">UseOcelot</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">Wait</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span><span class="syntax--comment syntax--line">//使用Ocelot中间件</span></span></span>
+<span class=""><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></span></pre>
+<ul>
+<li>
+<h5>step3</h5>
+运行程序即可</li>
+</ul>
+<h3>1.3 小结</h3>
+<p>至此windows环境下的服务网关与服务注册、发现雏形已经搭建好，
+下面是一些可能遇到的问题</p>
+<h4>1.3.1 QFA</h4>
+<h5>Q：遇到服务器积极拒绝怎么解决？</h5>
+<p>A：检查8500端口是否已经开放，<a href="https://jingyan.baidu.com/article/37bce2be40cf921002f3a229.html">具体做法</a>；如果端口已开放仍有问题，关闭防火墙。</p>
+</ul>
+
+  </body>
+</html>

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  api1-2:
+    image: ${DOCKER_REGISTRY-}api12
+    build:
+      context: .
+      dockerfile: Client1.2/Dockerfile

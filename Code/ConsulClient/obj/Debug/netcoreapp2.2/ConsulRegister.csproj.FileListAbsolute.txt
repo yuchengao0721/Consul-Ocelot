@@ -1,0 +1,8 @@
+C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\bin\Debug\netcoreapp2.2\ConsulRegister.deps.json
+C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\bin\Debug\netcoreapp2.2\ConsulRegister.dll
+C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\bin\Debug\netcoreapp2.2\ConsulRegister.pdb
+C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Debug\netcoreapp2.2\ConsulRegister.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Debug\netcoreapp2.2\ConsulRegister.AssemblyInfoInputs.cache
+C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Debug\netcoreapp2.2\ConsulRegister.AssemblyInfo.cs
+C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Debug\netcoreapp2.2\ConsulRegister.dll
+C:\Users\Administrator\source\repos\IdentityServer\ConsulClient\obj\Debug\netcoreapp2.2\ConsulRegister.pdb

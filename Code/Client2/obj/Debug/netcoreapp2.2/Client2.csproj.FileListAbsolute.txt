@@ -1,0 +1,17 @@
+C:\Users\Administrator\source\repos\IdentityServer\Client2\bin\Debug\netcoreapp2.2\Client2.deps.json
+C:\Users\Administrator\source\repos\IdentityServer\Client2\bin\Debug\netcoreapp2.2\Client2.runtimeconfig.json
+C:\Users\Administrator\source\repos\IdentityServer\Client2\bin\Debug\netcoreapp2.2\Client2.runtimeconfig.dev.json
+C:\Users\Administrator\source\repos\IdentityServer\Client2\bin\Debug\netcoreapp2.2\Client2.dll
+C:\Users\Administrator\source\repos\IdentityServer\Client2\bin\Debug\netcoreapp2.2\Client2.pdb
+C:\Users\Administrator\source\repos\IdentityServer\Client2\bin\Debug\netcoreapp2.2\ConsulRegister.dll
+C:\Users\Administrator\source\repos\IdentityServer\Client2\bin\Debug\netcoreapp2.2\ConsulRegister.pdb
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.csprojAssemblyReference.cache
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.RazorAssemblyInfo.cache
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.RazorAssemblyInfo.cs
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.AssemblyInfoInputs.cache
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.AssemblyInfo.cs
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.RazorTargetAssemblyInfo.cache
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.csproj.CopyComplete
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.dll
+C:\Users\Administrator\source\repos\IdentityServer\Client2\obj\Debug\netcoreapp2.2\Client2.pdb
